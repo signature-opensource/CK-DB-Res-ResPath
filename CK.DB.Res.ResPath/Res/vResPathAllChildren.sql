@@ -9,4 +9,4 @@ select  ResId = r.ResId,
 	cross apply (select ChildId = ResId, 
 						ChildName = ResPath
 					from CK.tResPath 
-					where ResPath like r.ResPath + '.%') c;
+					where ResPath like r.ResPath + '/%') c;

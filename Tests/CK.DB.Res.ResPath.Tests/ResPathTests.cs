@@ -33,7 +33,7 @@ namespace CK.DB.Res.ResPath.Tests
         }
 
         [Test]
-        public void CreateResPath_raises_an_exception_if_the_resource_is_already_associated_to_a_name_or_the_name_already_exists()
+        public void CreateResPath_raises_an_exception_if_the_resource_is_already_associated_to_a_path_or_the_path_already_exists()
         {
             var p = TestHelper.StObjMap.StObjs.Obtain<Package>();
             using( var ctx = new SqlStandardCallContext() )
@@ -60,26 +60,26 @@ namespace CK.DB.Res.ResPath.Tests
             {
                 p.ResPathTable.DestroyByResPath( ctx, "Test", ResPathOnly: false );
 
-                int n1 = p.ResPathTable.CreateWithResPath( ctx, "Test.Root" );
-                int n2 = p.ResPathTable.CreateWithResPath( ctx, "Test.Root.1" );
-                int n3 = p.ResPathTable.CreateWithResPath( ctx, "Test.Root.1.1" );
+                int n1 = p.ResPathTable.CreateWithResPath( ctx, "Test/Root" );
+                int n2 = p.ResPathTable.CreateWithResPath( ctx, "Test/Root/1" );
+                int n3 = p.ResPathTable.CreateWithResPath( ctx, "Test/Root/1/1" );
 
-                p.ResPathTable.Rename( ctx, n1, "Test.-Root-" );
-                p.Database.ExecuteReader( "select * from CK.tResPath where ResPath like 'Test.Root%'" )
+                p.ResPathTable.Rename( ctx, n1, "Test/-Root-" );
+                p.Database.ExecuteReader( "select * from CK.tResPath where ResPath like 'Test/Root%'" )
                     .Rows.Should().BeEmpty();
-                p.Database.ExecuteScalar( "select ResId from CK.tResPath where ResPath='Test.-Root-'" )
+                p.Database.ExecuteScalar( "select ResId from CK.tResPath where ResPath='Test/-Root-'" )
                     .Should().Be( n1 );
-                p.Database.ExecuteScalar( "select ResId from CK.tResPath where ResPath='Test.-Root-.1'" )
+                p.Database.ExecuteScalar( "select ResId from CK.tResPath where ResPath='Test/-Root-/1'" )
                     .Should().Be( n2 );
-                p.Database.ExecuteScalar( "select ResId from CK.tResPath where ResPath='Test.-Root-.1.1'" )
+                p.Database.ExecuteScalar( "select ResId from CK.tResPath where ResPath='Test/-Root-/1/1'" )
                     .Should().Be( n3 );
 
-                p.ResPathTable.Rename( ctx, n1, "Test.MovedTheRootOnly", withChildren: false );
-                p.Database.ExecuteScalar( "select ResId from CK.tResPath where ResPath='Test.MovedTheRootOnly'" )
+                p.ResPathTable.Rename( ctx, n1, "Test/MovedTheRootOnly", withChildren: false );
+                p.Database.ExecuteScalar( "select ResId from CK.tResPath where ResPath='Test/MovedTheRootOnly'" )
                         .Should().Be( n1 );
-                p.Database.ExecuteScalar( "select ResId from CK.tResPath where ResPath='Test.-Root-.1'" )
+                p.Database.ExecuteScalar( "select ResId from CK.tResPath where ResPath='Test/-Root-/1'" )
                         .Should().Be( n2 );
-                p.Database.ExecuteScalar( "select ResId from CK.tResPath where ResPath='Test.-Root-.1.1'" )
+                p.Database.ExecuteScalar( "select ResId from CK.tResPath where ResPath='Test/-Root-/1/1'" )
                     .Should().Be( n3 );
             }
         }
@@ -92,26 +92,26 @@ namespace CK.DB.Res.ResPath.Tests
             {
                 p.ResPathTable.DestroyByResPath( ctx, "Test", ResPathOnly: false );
 
-                int n1 = p.ResPathTable.CreateWithResPath( ctx, "Test.Root" );
-                int n2 = p.ResPathTable.CreateWithResPath( ctx, "Test.Root.1" );
-                int n3 = p.ResPathTable.CreateWithResPath( ctx, "Test.Root.1.1" );
+                int n1 = p.ResPathTable.CreateWithResPath( ctx, "Test/Root" );
+                int n2 = p.ResPathTable.CreateWithResPath( ctx, "Test/Root/1" );
+                int n3 = p.ResPathTable.CreateWithResPath( ctx, "Test/Root/1/1" );
 
-                p.ResPathTable.Rename( ctx, "Test.Root", "Test.-Root-" );
-                p.Database.ExecuteReader( "select * from CK.tResPath where ResPath like 'Test.Root%'" )
+                p.ResPathTable.Rename( ctx, "Test/Root", "Test/-Root-" );
+                p.Database.ExecuteReader( "select * from CK.tResPath where ResPath like 'Test/Root%'" )
                     .Rows.Should().BeEmpty();
-                p.Database.ExecuteScalar( "select ResId from CK.tResPath where ResPath='Test.-Root-'" )
+                p.Database.ExecuteScalar( "select ResId from CK.tResPath where ResPath='Test/-Root-'" )
                     .Should().Be( n1 );
-                p.Database.ExecuteScalar( "select ResId from CK.tResPath where ResPath='Test.-Root-.1'" )
+                p.Database.ExecuteScalar( "select ResId from CK.tResPath where ResPath='Test/-Root-/1'" )
                     .Should().Be( n2 );
-                p.Database.ExecuteScalar( "select ResId from CK.tResPath where ResPath='Test.-Root-.1.1'" )
+                p.Database.ExecuteScalar( "select ResId from CK.tResPath where ResPath='Test/-Root-/1/1'" )
                     .Should().Be( n3 );
 
-                p.ResPathTable.Rename( ctx, "Test.-Root-", "Test.MovedTheRootOnly", withChildren: false );
-                p.Database.ExecuteScalar( "select ResId from CK.tResPath where ResPath='Test.MovedTheRootOnly'" )
+                p.ResPathTable.Rename( ctx, "Test/-Root-", "Test/MovedTheRootOnly", withChildren: false );
+                p.Database.ExecuteScalar( "select ResId from CK.tResPath where ResPath='Test/MovedTheRootOnly'" )
                         .Should().Be( n1 );
-                p.Database.ExecuteScalar( "select ResId from CK.tResPath where ResPath='Test.-Root-.1'" )
+                p.Database.ExecuteScalar( "select ResId from CK.tResPath where ResPath='Test/-Root-/1'" )
                         .Should().Be( n2 );
-                p.Database.ExecuteScalar( "select ResId from CK.tResPath where ResPath='Test.-Root-.1.1'" )
+                p.Database.ExecuteScalar( "select ResId from CK.tResPath where ResPath='Test/-Root-/1/1'" )
                     .Should().Be( n3 );
             }
         }
@@ -124,9 +124,9 @@ namespace CK.DB.Res.ResPath.Tests
             {
                 var nameRoot = Guid.NewGuid().ToString();
 
-                int n1 = p.ResPathTable.CreateWithResPath( ctx, nameRoot + ".Test.Root" );
-                int n2 = p.ResPathTable.CreateWithResPath( ctx, nameRoot + ".Test.Root.1" );
-                int n3 = p.ResPathTable.CreateWithResPath( ctx, nameRoot + ".Test.Root.1.1" );
+                int n1 = p.ResPathTable.CreateWithResPath( ctx, nameRoot + "/Test/Root" );
+                int n2 = p.ResPathTable.CreateWithResPath( ctx, nameRoot + "/Test/Root.1" );
+                int n3 = p.ResPathTable.CreateWithResPath( ctx, nameRoot + "/Test/Root/1/1" );
                 p.Database.ExecuteScalar( "select count(*) from CK.tResPath where ResPath like @0+'%'", nameRoot ).Should().Be( 3 );
 
                 p.ResPathTable.DestroyByResPath( ctx, nameRoot, withRoot: true, withChildren: true, ResPathOnly: false );
@@ -134,27 +134,27 @@ namespace CK.DB.Res.ResPath.Tests
                 p.Database.ExecuteScalar( "select count(*) from CK.tRes where ResId in (@0, @1, @2)", n1, n2, n3 ).Should().Be( 0 );
 
                 // Destroys root, keep children.
-                n1 = p.ResPathTable.CreateWithResPath( ctx, nameRoot + ".Test.Root" );
-                n2 = p.ResPathTable.CreateWithResPath( ctx, nameRoot + ".Test.Root.1" );
-                n3 = p.ResPathTable.CreateWithResPath( ctx, nameRoot + ".Test.Root.1.1" );
+                n1 = p.ResPathTable.CreateWithResPath( ctx, nameRoot + "/Test/Root" );
+                n2 = p.ResPathTable.CreateWithResPath( ctx, nameRoot + "/Test/Root/1" );
+                n3 = p.ResPathTable.CreateWithResPath( ctx, nameRoot + "/Test/Root/1/1" );
                 p.Database.ExecuteScalar( "select count(*) from CK.tResPath where ResPath like @0+'%'", nameRoot ).Should().Be( 3 );
 
-                p.ResPathTable.DestroyByResPath( ctx, nameRoot + ".Test.Root", withRoot: true, withChildren: false, ResPathOnly: false );
+                p.ResPathTable.DestroyByResPath( ctx, nameRoot + "/Test/Root", withRoot: true, withChildren: false, ResPathOnly: false );
                 p.Database.ExecuteScalar( "select count(*) from CK.tResPath where ResPath like @0+'%'", nameRoot ).Should().Be( 2 );
 
-                p.ResPathTable.DestroyByResPath( ctx, nameRoot + ".Test.Root", withRoot: true, withChildren: true, ResPathOnly: false );
+                p.ResPathTable.DestroyByResPath( ctx, nameRoot + "/Test/Root", withRoot: true, withChildren: true, ResPathOnly: false );
                 p.Database.ExecuteScalar( "select count(*) from CK.tResPath where ResPath like @0+'%'", nameRoot ).Should().Be( 0 );
 
                 // Destroys children but keep the root.
-                n1 = p.ResPathTable.CreateWithResPath( ctx, nameRoot + ".Test.Root" );
-                n2 = p.ResPathTable.CreateWithResPath( ctx, nameRoot + ".Test.Root.1" );
-                n3 = p.ResPathTable.CreateWithResPath( ctx, nameRoot + ".Test.Root.1.1" );
+                n1 = p.ResPathTable.CreateWithResPath( ctx, nameRoot + "/Test/Root" );
+                n2 = p.ResPathTable.CreateWithResPath( ctx, nameRoot + "/Test/Root/1" );
+                n3 = p.ResPathTable.CreateWithResPath( ctx, nameRoot + "/Test/Root/1/1" );
                 p.Database.ExecuteScalar( "select count(*) from CK.tResPath where ResPath like @0+'%'", nameRoot ).Should().Be( 3 );
 
-                p.ResPathTable.DestroyByResPath( ctx, nameRoot + ".Test.Root", withRoot: false, withChildren: true, ResPathOnly: false );
+                p.ResPathTable.DestroyByResPath( ctx, nameRoot + "/Test/Root", withRoot: false, withChildren: true, ResPathOnly: false );
                 p.Database.ExecuteScalar( "select count(*) from CK.tResPath where ResPath like @0 + '%'", nameRoot ).Should().Be( 1 );
 
-                p.ResPathTable.DestroyByResPath( ctx, nameRoot + ".Test.Root", withRoot: true, withChildren: false, ResPathOnly: false );
+                p.ResPathTable.DestroyByResPath( ctx, nameRoot + "/Test/Root", withRoot: true, withChildren: false, ResPathOnly: false );
                 p.Database.ExecuteScalar( "select count(*) from CK.tResPath where ResPath like @0 + '%'", nameRoot ).Should().Be( 0 );
 
             }

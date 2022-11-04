@@ -1,4 +1,4 @@
-﻿-- SetupConfig:{}
+-- SetupConfig:{}
 -- Inline Table Value Function (ITVF) version to get the parent ResPaths from a ResPath.
 -- This is the fastest implementation I can achieve.
 create function CK.fResPathPrefixes( @ResPath varchar(128) )
@@ -15,4 +15,4 @@ returns table -- with schemabinding
 		select	ParentLevel = row_number() over (order by  (select null) desc), 
 				ParentPrefix = SUBSTRING(@ResPath, 0, len(@ResPath)-T.n ) collate Latin1_General_100_BIN2
 			from T
-			where len(@ResPath) > 1 and SUBSTRING(@ResPath, len(@ResPath)-T.n, 1 ) = '.';
+			where len(@ResPath) > 1 and SUBSTRING(@ResPath, len(@ResPath)-T.n, 1 ) = '/';

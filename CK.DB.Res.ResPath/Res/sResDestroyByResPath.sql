@@ -1,4 +1,4 @@
-﻿-- SetupConfig: { "Requires": [ "CK.sResDestroy", "CK.sResPathDestroy" ] }
+-- SetupConfig: { "Requires": [ "CK.sResDestroy", "CK.sResPathDestroy" ] }
 --
 -- Destroys a root resource and/or its children thanks to its name.
 -- Note that if @WithRoot and @WithChildren are both 0, nothing is done.
@@ -37,7 +37,7 @@ as begin
 	    set @CRes = cursor local fast_forward for 
 		    select r.ResId 
 			    from CK.tResPath r
-			    where r.ResPath like @RootResPath + '.%';
+			    where r.ResPath like @RootResPath + '/%';
 	    open @CRes;
 	    fetch from @CRes into @ChildResId;
 	    while @@FETCH_STATUS = 0

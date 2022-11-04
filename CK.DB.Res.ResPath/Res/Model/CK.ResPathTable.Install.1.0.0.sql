@@ -1,4 +1,4 @@
-﻿--[beginscript]
+--[beginscript]
 
 create table CK.tResPath
 (

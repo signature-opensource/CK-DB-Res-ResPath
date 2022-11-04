@@ -4,8 +4,8 @@ as
 begin
 
 	inject "
-		left outer join CK.tResPath n on n.ResId = r.ResId" after single {from CK.tRes r};
+		left outer join CK.tResPath path on path.ResId = r.ResId" after single {from CK.tRes r};
 
-	add column "ResPath = IsNull( n.ResPath, 'Auto/' + cast( r.ResId as varchar) )";
+	add column ResPath = IsNull( path.ResPath, 'Auto/' + cast( r.ResId as varchar) );
 
 end

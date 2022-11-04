@@ -1,4 +1,4 @@
-﻿-- SetupConfig: {}
+-- SetupConfig: {}
 --
 -- Renames a resource by its resource name.
 --
@@ -23,7 +23,7 @@ begin
 	begin
 		-- Updates child names first.
 		update CK.tResPath set ResPath = @NewName + substring( ResPath, @LenPrefix, 128 )
-			where ResPath like @OldName + '.%';
+			where ResPath like @OldName + '/%';
 	end
 	-- Updates the resource itself.
 	update CK.tResPath set ResPath = @NewName where ResPath = @OldName;
