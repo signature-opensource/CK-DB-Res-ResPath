@@ -9,7 +9,7 @@
     <Nullable>annotations</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="CK.Core" Version="15.0.0-r06" />
+    <PackageReference Include="CK.Core" Version="17.0.2--0009-develop" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="SimpleGitVersion.Cake" Version="8.0.0" />
