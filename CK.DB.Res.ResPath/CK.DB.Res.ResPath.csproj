@@ -10,6 +10,6 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="CK.DB.Res" Version="0.0.0--04yvw1d-develop" />
+    <PackageReference Include="CK.DB.Res" Version="0.0.0--04yw01x-develop" />
   </ItemGroup>
 </Project>
