@@ -1,5 +1,6 @@
 using CK.Core;
 using CK.SqlServer;
+using CK.Testing;
 using FluentAssertions;
 using NUnit.Framework;
 using System;
@@ -25,7 +26,7 @@ namespace CK.DB.Res.ResPath.Tests
         public void resource_0_and_1_can_not_be_destroyed()
         {
             var p = SharedEngine.Map.StObjs.Obtain<Package>();
-            using( var ctx = new SqlStandardCallContext() )
+            using( var ctx = new SqlStandardCallContext( TestHelper.Monitor ) )
             {
                 p.Invoking( sut => sut.ResTable.Destroy( ctx, 0 ) ).Should().Throw<SqlDetailedException>();
                 p.Invoking( sut => sut.ResTable.Destroy( ctx, 1 ) ).Should().Throw<SqlDetailedException>();
@@ -36,7 +37,7 @@ namespace CK.DB.Res.ResPath.Tests
         public void CreateResPath_raises_an_exception_if_the_resource_is_already_associated_to_a_path_or_the_path_already_exists()
         {
             var p = SharedEngine.Map.StObjs.Obtain<Package>();
-            using( var ctx = new SqlStandardCallContext() )
+            using( var ctx = new SqlStandardCallContext( TestHelper.Monitor ) )
             {
                 int resId = p.ResTable.Create( ctx );
                 string ResPath = Guid.NewGuid().ToString();
@@ -56,7 +57,7 @@ namespace CK.DB.Res.ResPath.Tests
         public void renaming_a_resource_can_be_done_WithChildren_or_only_for_the_resource_itself_by_resId()
         {
             var p = SharedEngine.Map.StObjs.Obtain<Package>();
-            using( var ctx = new SqlStandardCallContext() )
+            using( var ctx = new SqlStandardCallContext( TestHelper.Monitor ) )
             {
                 p.ResPathTable.DestroyByResPath( ctx, "Test", ResPathOnly: false );
 
@@ -88,7 +89,7 @@ namespace CK.DB.Res.ResPath.Tests
         public void renaming_a_resource_can_be_done_WithChildren_or_only_for_the_resource_itself_by_ResPath()
         {
             var p = SharedEngine.Map.StObjs.Obtain<Package>();
-            using( var ctx = new SqlStandardCallContext() )
+            using( var ctx = new SqlStandardCallContext( TestHelper.Monitor ) )
             {
                 p.ResPathTable.DestroyByResPath( ctx, "Test", ResPathOnly: false );
 
@@ -120,7 +121,7 @@ namespace CK.DB.Res.ResPath.Tests
         public void using_DestroyByPrefix_enables_destruction_without_an_existing_parent()
         {
             var p = SharedEngine.Map.StObjs.Obtain<Package>();
-            using( var ctx = new SqlStandardCallContext() )
+            using( var ctx = new SqlStandardCallContext( TestHelper.Monitor ) )
             {
                 var nameRoot = Guid.NewGuid().ToString();
 

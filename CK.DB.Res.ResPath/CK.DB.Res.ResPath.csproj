@@ -3,13 +3,13 @@
     <TargetFramework>net8.0</TargetFramework>
     <Description>This package defines CK.tResPath table with its procedures, functions and views.</Description>
   </PropertyGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="**\*.sql;**\*.tql;**\*.y4" Exclude="bin\**;obj\**;CodeCakeBuilder\**;packages\**;@(EmbeddedResource)" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
+  
   <ItemGroup>
     <PackageReference Include="CK.DB.Res" Version="0.0.0--04yzfbn-develop" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <EmbeddedResource Include="**\*.sql;**\*.tql;**\*.y4" />
+  </ItemGroup>
+
 </Project>
